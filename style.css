@@ -1,0 +1,156 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Montserrat, "sans-serif";
+}
+
+body {
+  overflow: hidden;
+}
+
+.loading {
+  z-index: 99;
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  overflow: hidden;
+  background: rgb(50, 0, 233);
+  transition: 1s all;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loading-container {
+  color: white;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3),
+    5px 5px 70px rgba(255, 255, 255, 0.5);
+  font-size: xx-large;
+}
+
+.number {
+  width: 100%;
+  text-align: center;
+}
+
+#bar {
+  width: 300px;
+  height: 12px;
+  border: 1px solid white;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3),
+    5px 5px 70px rgba(255, 255, 255, 0.5);
+}
+
+#progress {
+  background-color: white;
+  width: 0%;
+  height: 100%;
+}
+.container {
+  width: 80%;
+  height: 40px;
+  outline: 1px solid white;
+  outline-offset: 4px;
+  border: 1px solid white;
+  border-radius: 50px;
+}
+
+.main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  overflow: hidden;
+  height: 100vh;
+  width: 100vw;
+  background-color: black;
+}
+
+.title {
+  font-size: xx-large;
+  text-align: center;
+  color: white;
+  z-index: 20;
+}
+
+.circle {
+  position: absolute;
+  overflow: hidden;
+  border-radius: 50%;
+  width: 15px;
+  height: 15px;
+  background-color: rgba(165, 197, 235, 0.8);
+  pointer-events: none; /* Empêche les cercles d'intercepter les événements */
+  animation: fadeOut 1s ease-out forwards;
+  z-index: 3;
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(3);
+  }
+}
+
+.contain {
+  background-image: linear-gradient();
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  margin: 30px auto;
+  width: 80%;
+  gap: 20px;
+  padding: 0;
+}
+
+.card {
+  width: 100px;
+  height: 100px;
+  border: 1px solid white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 40px;
+  color: white;
+  position: relative;
+  overflow: hidden;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.pixel {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background-color: rgba(255, 255, 255, 0.8);
+  animation: grow 1s ease-out forwards;
+}
+
+@keyframes grow {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
+@media (max-width: 768px) {
+
+
+  .contain {
+    width: 200px;
+    flex-direction: column;
+    align-items: center;
+
+  }
+}
