@@ -1,0 +1,50 @@
+name: Deploy to FTP on PROD commit
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check for "PROD" in commit message
+        id: check_commit
+        run: |
+          echo "Commit: ${{ github.event.head_commit.message }}"
+          if [[ "${{ github.event.head_commit.message }}" != *PROD* ]]; then
+            echo "skip=true" >> $GITHUB_OUTPUT
+          else
+            echo "skip=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Deploy to FTP
+        if: steps.check_commit.outputs.skip == 'false'
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          server-dir: ${{ secrets.FTP_DESTINATION_DIR || '/' }}
+          local-dir: ./
+
+      - name: Send notification email
+        if: steps.check_commit.outputs.skip == 'false'
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{ secrets.SMTP_USER }}
+          password: ${{ secrets.SMTP_PASSWORD }}
+          subject: 🚀 Déploiement PROD réussi
+          to: ${{ secrets.PROD_EMAIL }}
+          from: "CI/CD Notifier <${{ secrets.SMTP_USER }}>"
+          content_type: text/html
+          body: |
+            <p><strong>Le déploiement FTP de la branche <code>main</code> a été effectué avec succès.</strong></p>
+            <p>Message du commit : <code>${{ github.event.head_commit.message }}</code></p>
+            <p>Dépôt : <a href="${{ github.repositoryUrl }}">${{ github.repository }}</a></p>
